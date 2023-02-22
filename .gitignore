@@ -29,7 +29,6 @@ lerna-debug.log*
 
 # env
 .env
-package.json
 package-lock.json
 # IDE - VSCode
 .vscode/*
