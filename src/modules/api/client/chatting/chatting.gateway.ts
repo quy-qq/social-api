@@ -9,16 +9,8 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import {
-  Bind,
-  HttpException,
-  HttpStatus,
-  Logger,
-  UseGuards,
-} from '@nestjs/common';
+
 import { Chatting, User } from '@schema';
-import { UserRepository } from 'src/database/repository';
-import { NestGateway } from '@nestjs/websockets/interfaces/nest-gateway.interface';
 import { ChattingService } from './chatting.service';
 import { MessageInterface } from './dto/message.dto';
 //80, { cors: true }

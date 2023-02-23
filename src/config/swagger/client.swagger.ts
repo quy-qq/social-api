@@ -6,6 +6,7 @@ import { PostModule } from 'src/modules/api/client/post/post.module';
 import {
   AuthenticationModule,
   ChattingModule,
+  UploadModule,
   UserModule,
 } from '../../modules/api/client';
 
@@ -29,6 +30,7 @@ export const SwaggerClient = (app) => {
       .build(),
     {
       include: [
+        UploadModule,
         AuthenticationModule,
         UserModule,
         PostModule,

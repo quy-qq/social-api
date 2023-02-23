@@ -8,6 +8,7 @@ import { MarketModule } from './market/market.module';
 import { DatingModule } from './dating/dating.module';
 import { RecommentModule } from './recomment/recomment.module';
 import { ChattingModule } from './chatting/chatting.module';
+import { UploadModule } from './upload/upload.module';
 @Module({
   imports: [
     AuthenticationModule,
@@ -19,6 +20,7 @@ import { ChattingModule } from './chatting/chatting.module';
     DatingModule,
     RecommentModule,
     ChattingModule,
+    UploadModule,
   ],
   providers: [],
   controllers: [],

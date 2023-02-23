@@ -4,9 +4,14 @@ import {
   LikeModule,
   CommentModule,
   ChattingModule,
+  UploadModule,
 } from 'src/modules/api/client';
 
 export const ClientRouteApi = [
+  {
+    path: 'upload',
+    module: UploadModule,
+  },
   {
     path: 'user',
     module: UserModule,

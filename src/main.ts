@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { WebSocketGateway } from '@nestjs/websockets';
 import { AppModule } from './app.module';
 import { SwaggerClient } from './config/swagger/client.swagger';
+import { SwaggerCms } from './config/swagger/cms.swagger';
 require('dotenv').config();
 
 const bodyParser = require('body-parser');
@@ -17,10 +18,10 @@ async function bootstrap() {
    * Swagger config
    */
   SwaggerClient(app);
-  //SwaggerCms(app);
-  // app.enableVersioning({
-  //   type: VersioningType.URI,
-  // });
+  SwaggerCms(app);
+  app.enableVersioning({
+    type: VersioningType.URI,
+  });
   app.enableCors();
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -28,6 +29,7 @@ async function bootstrap() {
     Logger.log(
       `Server running on http://localhost:3000`,
       `Server document API BACKEND running on http://localhost:3000/client`,
+      'Server document API BACKEND running on http://localhost:3000/backend',
       'Bootstrap',
     );
   });

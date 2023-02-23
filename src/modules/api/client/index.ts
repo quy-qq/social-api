@@ -1,3 +1,4 @@
+export * from './upload/upload.module';
 export * from './authentication/authentication.module';
 export * from './user/user.module';
 export * from './comment/comment.module';
