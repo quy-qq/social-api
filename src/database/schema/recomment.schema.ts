@@ -1,14 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { Comment } from './comment.schema';
-import { Post } from './post.schema';
 import { User } from './user.schema';
-export type ReCommentDocument = ReComment & Document;
+export type RecommentDocument = Recomment & Document;
 
 @Schema({
-  collection: 'ReComment',
+  collection: 'Recomment',
 })
-export class ReComment {
+export class Recomment {
   _id: string;
 
   @Prop({ type: String, required: true })
@@ -17,11 +16,8 @@ export class ReComment {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   user: User;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Comment.name })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' })
   comment: Comment;
-
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
-  post: Post;
 
   @Prop({
     type: Date,
@@ -35,5 +31,5 @@ export class ReComment {
   })
   updatedAt: Date;
 }
-const ReCommentSchema = SchemaFactory.createForClass(ReComment);
-export default ReCommentSchema;
+const RecommentSchema = SchemaFactory.createForClass(Recomment);
+export default RecommentSchema;

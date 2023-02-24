@@ -1,34 +1,77 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Res,
+  HttpStatus,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { User } from '@schema';
+import { UserDecorator } from 'src/common/decorator';
+import { JwtAuthGuard } from 'src/common/guard';
 import { RecommentService } from './recomment.service';
 import { CreateRecommentDto } from './dto/create-recomment.dto';
 import { UpdateRecommentDto } from './dto/update-recomment.dto';
 
-@Controller('recomment')
+@ApiTags('Re Comment')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth('access-token')
+@ApiResponse({
+  status: 401,
+  description: 'Authorization Fail',
+})
+@Controller({
+  version: '1',
+})
 export class RecommentController {
   constructor(private readonly recommentService: RecommentService) {}
 
-  @Post()
-  create(@Body() createRecommentDto: CreateRecommentDto) {
-    return this.recommentService.create(createRecommentDto);
+  @Post(':idCmt')
+  async create(
+    @UserDecorator() user: User,
+    @Param('idCmt') idCmt: string,
+    @Body() createCommentDto: CreateRecommentDto,
+    @Res() response,
+  ) {
+    const data = await this.recommentService.create(
+      createCommentDto,
+      user,
+      idCmt,
+    );
+    return await response.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.OK,
+      description: 'SUCCESS',
+      data,
+    });
   }
 
-  @Get()
-  findAll() {
-    return this.recommentService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.recommentService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRecommentDto: UpdateRecommentDto) {
-    return this.recommentService.update(+id, updateRecommentDto);
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateCommentDto: UpdateRecommentDto,
+    @Res() response,
+  ) {
+    const data = await this.recommentService.update(id, updateCommentDto);
+    return await response.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.OK,
+      description: 'SUCCESS',
+      data,
+    });
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.recommentService.remove(+id);
+  async remove(@Param('id') id: string, @Res() response) {
+    const data = await this.recommentService.remove(id);
+    return await response.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.OK,
+      description: 'SUCCESS',
+      data,
+    });
   }
 }

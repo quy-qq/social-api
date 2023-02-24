@@ -6,11 +6,13 @@ import { User } from '@schema';
 import { PostRepository } from 'src/database/repository';
 import mongoose from 'mongoose';
 import { InjectConnection } from '@nestjs/mongoose';
+import { RecommentRepository } from 'src/database/repository/recomment.repository';
 @Injectable()
 export class CommentService {
   constructor(
     private commentRepository: CommentRepository,
     private postRepository: PostRepository,
+    private recommentRepository: RecommentRepository,
     @InjectConnection() private readonly connection: mongoose.Connection,
   ) {}
 
@@ -36,7 +38,9 @@ export class CommentService {
   }
 
   async findAllCommentByPost(idPost: string) {
-    return await this.commentRepository.model.find({ where: { post: idPost } });
+    return await this.commentRepository.model
+      .find({ where: { post: idPost } })
+      .populate('reComment');
   }
 
   async update(id: string, updateCommentDto: UpdateCommentDto) {
@@ -59,6 +63,9 @@ export class CommentService {
           },
           { $pull: { comments: id } },
         )
+        .session(session);
+      await this.recommentRepository.model
+        .deleteMany({ comment: id })
         .session(session);
       const deleteComment = await this.commentRepository.deleteById(id);
       await session.commitTransaction();

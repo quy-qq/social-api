@@ -6,6 +6,7 @@ import {
   ChattingModule,
   UploadModule,
 } from 'src/modules/api/client';
+import { RecommentModule } from 'src/modules/api/client/recomment/recomment.module';
 
 export const ClientRouteApi = [
   {
@@ -31,5 +32,9 @@ export const ClientRouteApi = [
   {
     path: 'chatting',
     module: ChattingModule,
+  },
+  {
+    path: 're-comment',
+    module: RecommentModule,
   },
 ];

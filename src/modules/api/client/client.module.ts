@@ -9,6 +9,7 @@ import { DatingModule } from './dating/dating.module';
 import { RecommentModule } from './recomment/recomment.module';
 import { ChattingModule } from './chatting/chatting.module';
 import { UploadModule } from './upload/upload.module';
+import { ConversationModule } from './conversation/conversation.module';
 @Module({
   imports: [
     AuthenticationModule,
@@ -21,6 +22,7 @@ import { UploadModule } from './upload/upload.module';
     RecommentModule,
     ChattingModule,
     UploadModule,
+    ConversationModule,
   ],
   providers: [],
   controllers: [],

@@ -1,6 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+
+import { Type } from 'class-transformer';
 import mongoose from 'mongoose';
 import { Post } from './post.schema';
+import { Recomment } from './recomment.schema';
 import { User } from './user.schema';
 export type CommentDocument = Comment & Document;
 
@@ -16,8 +19,19 @@ export class Comment {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   user: User;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Post' })
   post: Post;
+
+  @Prop({
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Recomment.name,
+      },
+    ],
+  })
+  @Type(() => Recomment)
+  reComments: Recomment;
 
   @Prop({
     type: Date,
