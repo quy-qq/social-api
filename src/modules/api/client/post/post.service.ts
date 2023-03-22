@@ -2,6 +2,7 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { User } from '@schema';
 import { CommentRepository, PostRepository } from 'src/database/repository';
 import { CreatePostDto } from './dto/create-post.dto';
+import { FiltersDto } from './dto/filters.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 
 @Injectable()
@@ -10,6 +11,19 @@ export class PostService {
     private postRepository: PostRepository,
     private commentRepository: CommentRepository,
   ) {}
+
+  /**
+   *
+   */
+  async findAll(filters: FiltersDto): Promise<any[]> {
+    return this.postRepository.pagination(
+      {},
+      filters.page,
+      filters.limit,
+      filters.orderBy,
+    );
+  }
+
   async create(createPostDto: CreatePostDto, user: User) {
     const post = this.postRepository.actionCreate({
       ...createPostDto,
@@ -19,15 +33,6 @@ export class PostService {
       throw new HttpException('Post cannot create', 402);
     }
     return post;
-  }
-
-  /**
-   * get all post by user
-   * @param user
-   * @returns
-   */
-  async findAll(user: User) {
-    return await this.postRepository.findIdOrFail(user._id);
   }
 
   /**

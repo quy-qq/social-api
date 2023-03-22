@@ -7,6 +7,7 @@ import { RecommentModule } from 'src/modules/api/client/recomment/recomment.modu
 import {
   AuthenticationModule,
   ChattingModule,
+  ConversationModule,
   UploadModule,
   UserModule,
 } from '../../modules/api/client';
@@ -39,6 +40,7 @@ export const SwaggerClient = (app) => {
         CommentModule,
         ChattingModule,
         RecommentModule,
+        ConversationModule,
       ],
     },
   );

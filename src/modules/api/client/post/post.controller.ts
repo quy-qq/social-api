@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Res,
+  Query,
   HttpStatus,
 } from '@nestjs/common';
 import { PostService } from './post.service';
@@ -22,10 +23,11 @@ import {
 } from '@nestjs/swagger';
 import { UserDecorator } from 'src/common/decorator';
 import { User } from '@schema';
+import { FiltersDto } from '../user/dto/filters.dto';
 
 @ApiTags('Post')
-@UseGuards(JwtAuthGuard)
-@ApiBearerAuth('access-token')
+// @UseGuards(JwtAuthGuard)
+// @ApiBearerAuth('access-token')
 @ApiResponse({
   status: 401,
   description: 'Authorization Fail',
@@ -54,10 +56,11 @@ export class PostController {
    * @param user
    * @param response
    */
+  //@UserDecorator() user: User
   @ApiOperation({ summary: 'Get list promotion' })
   @Get()
-  async findAll(@UserDecorator() user: User, @Res() response) {
-    const data = await this.postService.findAll(user);
+  async findAll(@Query() filters: FiltersDto, @Res() response) {
+    const data = await this.postService.findAll(filters);
     return response.status(HttpStatus.OK).json({
       statusCode: HttpStatus.OK,
       description: 'SUCCESS',

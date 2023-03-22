@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Param,
   Put,
+  Query,
   Request,
   Res,
   UseGuards,
@@ -20,10 +21,11 @@ import {
 import { UserService } from '../user/user.service';
 import { UpdateUserDto } from './dto';
 import { JwtAuthGuard } from 'src/common/guard';
+import { FiltersDto } from './dto/filters.dto';
 
 @ApiTags('User')
-@UseGuards(JwtAuthGuard)
-@ApiBearerAuth('access-token')
+// @UseGuards(JwtAuthGuard)
+// @ApiBearerAuth('access-token')
 @ApiResponse({
   status: 401,
   description: 'Authorization Fail',
@@ -45,6 +47,23 @@ export class UserController {
   async findOne(@Request() req, @Res() response) {
     console.log('Request:', req);
     const user = await this.userService.findOne(req.user._id);
+    response.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.OK,
+      description: 'get user success',
+      data: user,
+    });
+  }
+
+  /**
+   *
+   * @param req
+   * @param response
+   */
+  @ApiOperation({ summary: 'Get Information User' })
+  @ApiOkResponse({ description: 'get data success' })
+  @Get()
+  async getAll(@Query() filters: FiltersDto, @Res() response) {
+    const user = await this.userService.findAll(filters);
     response.status(HttpStatus.OK).json({
       statusCode: HttpStatus.OK,
       description: 'get user success',

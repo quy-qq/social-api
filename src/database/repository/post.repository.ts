@@ -33,6 +33,15 @@ export class PostRepository extends BaseService<PostDocument> {
 
   /**
    *
+   * @param itemId
+   */
+  async findAll() {
+    const item = await this.model.find().populate('user');
+    return item;
+  }
+
+  /**
+   *
    * @param id
    * @returns
    */

@@ -18,4 +18,8 @@ export class MessageInterface {
   @Allow()
   @IsString()
   recipent: string;
+
+  @Allow()
+  @IsString()
+  conversationId: string;
 }

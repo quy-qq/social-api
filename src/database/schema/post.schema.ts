@@ -20,7 +20,14 @@ export class Post {
   @Prop({ type: String, required: true })
   description: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  @Prop({ type: String, required: true })
+  video: string;
+
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: User.name,
+    autopopulate: true,
+  })
   user: User;
 
   @Prop({ type: Number, required: true, default: 0 })

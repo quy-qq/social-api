@@ -5,3 +5,5 @@ export * from './comment/comment.module';
 export * from './post/post.module';
 export * from './like/like.module';
 export * from './chatting/chatting.module';
+export * from './conversation/conversation.module';
+export * from './recomment/recomment.module';
