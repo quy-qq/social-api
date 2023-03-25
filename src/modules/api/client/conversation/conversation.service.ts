@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@schema';
 import { CreateConversationDto } from './dto/create-conversation.dto';
 import { UpdateConversationDto } from './dto/update-conversation.dto';
-import { ConversationRepository } from 'src/database/repository/conversation.repository';
+
 @Injectable()
 export class ConversationService {
-  constructor(private conversationRepository: ConversationRepository) {}
-  async create(createConversationDto: CreateConversationDto, user: User) {
-    return await this.conversationRepository.actionGetAllByUser(user);
+  create(createConversationDto: CreateConversationDto) {
+    return 'This action adds a new conversation';
   }
 
-  findAll(user: User) {
+  findAll() {
     return `This action returns all conversation`;
   }
 

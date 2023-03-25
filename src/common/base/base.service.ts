@@ -1,5 +1,4 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { User } from '@schema';
 import mongoose from 'mongoose';
 import { BaseService as BaseServiceDeclare } from '../declares/base.service';
 
@@ -62,13 +61,6 @@ export class BaseService<T = any> implements BaseServiceDeclare<T> {
    */
   async actionGetAll(): Promise<any[]> {
     return this.model.find({});
-  }
-
-  /**
-   *
-   */
-  async actionGetAllByUser(user: User): Promise<any[]> {
-    return this.model.find({ user: user._id });
   }
 
   /**

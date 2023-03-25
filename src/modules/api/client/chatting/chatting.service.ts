@@ -6,14 +6,12 @@ import { ChattingRepository } from 'src/database/repository';
 import { WsException } from '@nestjs/websockets';
 import { AuthenticationBaseService } from 'src/common/base';
 import { MessageInterface } from './dto/message.dto';
-import { ConversationRepository } from 'src/database/repository/conversation.repository';
 
 @Injectable()
 export class ChattingService {
   constructor(
     private chattingRepository: ChattingRepository,
     private authenticationService: AuthenticationBaseService,
-    private conversationRepository: ConversationRepository,
   ) {}
 
   async getUserFromSocket(socket: Socket) {
@@ -39,6 +37,6 @@ export class ChattingService {
       ...message,
       sender: sender,
     };
-    const chatting = await this.chattingRepository.actionCreate(chat);
+    return await this.chattingRepository.actionCreate(chat);
   }
 }

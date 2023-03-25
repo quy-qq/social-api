@@ -40,12 +40,11 @@ export class AuthenticationBaseService extends BaseService {
     const encode = {
       _id: user['_id'],
       username: user.username,
+      avatar: user.avatar,
     };
 
     const accessToken = await this.generateToken(encode);
-    console.log('access_token:', accessToken);
     const refreshToken = this.jwtService.sign(encode, this.getTokenOptions());
-    console.log('refresh_token:', refreshToken);
     await this.setCurrentRefreshToken(refreshToken, user['_id'].toString());
     return {
       accessToken,

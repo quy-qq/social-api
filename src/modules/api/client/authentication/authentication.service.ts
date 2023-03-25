@@ -33,14 +33,17 @@ export class AuthenticationService extends AuthenticationBaseService {
       if (!user_data) {
         user_data = await this.userModel.create({
           firebaseId: user.uid,
-          email: user.email,
+          email: user.email || '',
+          isLoggin: true,
+          avatar:
+            user.avatar ||
+            'https://phongreviews.com/wp-content/uploads/2022/11/avatar-facebook-mac-dinh-15.jpg',
         });
       }
 
       if (user_data && user_data.status !== true) {
         throw new NotFoundException('USER IS DISABLED');
       }
-      console.log('111111111');
       return await this.login(user_data);
     } catch (err) {
       throw new NotFoundException(err.message);

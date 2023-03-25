@@ -9,26 +9,15 @@ import { JwtAuthGuard } from './common/guard';
 import { ClientModule } from './modules/api/client/client.module';
 import { ApiRoute } from './router';
 import { BackendModule } from './modules/api/cms/backend.module';
-import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
     MongooseModule.forRoot(
       'mongodb+srv://quynguyen:J1q55fVc6W2hsiSr@social.mx7nvwb.mongodb.net/test',
-      {
-        connectionFactory: (connection) => {
-          connection.plugin(require('mongoose-autopopulate'));
-          connection.plugin(require('mongoose-paginate-v2'));
-          return connection;
-        },
-      },
     ),
     RouterModule.register(ApiRoute),
     ClientModule,
     BackendModule,
-    MulterModule.register({
-      dest: '../uploads',
-    }),
   ],
   controllers: [AppController],
   providers: [AppService],

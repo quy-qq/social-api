@@ -2,28 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '@schema';
 import { Model } from 'mongoose';
-import { UserRepository } from 'src/database/repository';
-import { FiltersDto } from './dto/filters.dto';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectModel(User.name) public userModel: Model<UserDocument>,
-    public userRepository: UserRepository,
-  ) {}
+  constructor(@InjectModel(User.name) public userModel: Model<UserDocument>) {}
 
   async create(user: User): Promise<User> {
     const newUser = new this.userModel(user);
     return await newUser.save();
   }
 
-  async findAll(filters: FiltersDto) {
-    return await this.userRepository.pagination(
-      {},
-      filters.page,
-      filters.limit,
-      filters.orderBy,
-    );
+  findAll() {
+    return this.userModel.find({});
   }
 
   async findOne(id: string) {

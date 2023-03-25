@@ -14,7 +14,7 @@ export class User {
   })
   username: string;
 
-  @Prop({ type: String, trim: true, required: true, unique: true })
+  @Prop({ type: String, trim: true, unique: true })
   email: string;
 
   @Prop({ type: String, trim: true })
@@ -38,9 +38,6 @@ export class User {
   @Prop({
     type: {
       type: String,
-      enum: Object.values('Point'),
-      default: 'Point',
-      required: true,
     },
     coordinates: { type: [Number] },
   })
@@ -51,6 +48,9 @@ export class User {
 
   @Prop({ type: Boolean, required: true, default: true })
   status: boolean;
+
+  @Prop({ type: Boolean, required: true, default: false })
+  isLoggin: boolean;
 
   @Prop({
     type: Date,

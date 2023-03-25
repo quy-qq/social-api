@@ -1,45 +1,20 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-} from '@nestjs/common';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { User } from '@schema';
-import { UserDecorator } from 'src/common/decorator';
-import { JwtAuthGuard } from 'src/common/guard';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ConversationService } from './conversation.service';
 import { CreateConversationDto } from './dto/create-conversation.dto';
 import { UpdateConversationDto } from './dto/update-conversation.dto';
 
-@ApiTags('Conversation')
-@UseGuards(JwtAuthGuard)
-@ApiBearerAuth('access-token')
-@ApiResponse({
-  status: 401,
-  description: 'Authorization Fail',
-})
-@Controller({
-  version: '1',
-})
+@Controller('conversation')
 export class ConversationController {
   constructor(private readonly conversationService: ConversationService) {}
 
   @Post()
-  create(
-    @Body() createConversationDto: CreateConversationDto,
-    @UserDecorator() user: User,
-  ) {
-    return this.conversationService.create(createConversationDto, user);
+  create(@Body() createConversationDto: CreateConversationDto) {
+    return this.conversationService.create(createConversationDto);
   }
 
   @Get()
-  findAll(@UserDecorator() user: User) {
-    return this.conversationService.findAll(user);
+  findAll() {
+    return this.conversationService.findAll();
   }
 
   @Get(':id')
@@ -48,10 +23,7 @@ export class ConversationController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateConversationDto: UpdateConversationDto,
-  ) {
+  update(@Param('id') id: string, @Body() updateConversationDto: UpdateConversationDto) {
     return this.conversationService.update(+id, updateConversationDto);
   }
 
