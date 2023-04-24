@@ -18,7 +18,7 @@ import { JwtAuthGuard } from 'src/common/guard';
 import { UserDecorator } from 'src/common/decorator';
 import { User } from '@schema';
 
-@ApiTags('Post')
+@ApiTags('Product')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('access-token')
 @ApiResponse({

@@ -12,9 +12,8 @@ import { UploadModule } from './upload/upload.module';
 import { ConversationModule } from './conversation/conversation.module';
 import { FollowingModule } from './following/following.module';
 import { ProductModule } from './product/product.module';
-import { OrtherModule } from './orther/orther.module';
-import { PaymentHistoryModule } from './payment-history/payment-history.module';
 import { ProductCategoryModule } from './product-category/product-category.module';
+import { OrderModule } from './order/order.module';
 @Module({
   imports: [
     AuthenticationModule,
@@ -29,11 +28,9 @@ import { ProductCategoryModule } from './product-category/product-category.modul
     UploadModule,
     ConversationModule,
     FollowingModule,
-    FollowingModule,
     ProductModule,
-    OrtherModule,
-    PaymentHistoryModule,
     ProductCategoryModule,
+    OrderModule,
   ],
   providers: [],
   controllers: [],

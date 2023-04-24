@@ -11,6 +11,9 @@ import {
   UploadModule,
   UserModule,
 } from '../../modules/api/client';
+import { ProductModule } from 'src/modules/api/client/product/product.module';
+import { ProductCategoryModule } from 'src/modules/api/client/product-category/product-category.module';
+import { OrderModule } from 'src/modules/api/client/order/order.module';
 
 export const SwaggerClient = (app) => {
   const swagger = SwaggerModule.createDocument(
@@ -41,6 +44,9 @@ export const SwaggerClient = (app) => {
         ChattingModule,
         RecommentModule,
         FollowingModule,
+        ProductModule,
+        ProductCategoryModule,
+        OrderModule,
       ],
     },
   );

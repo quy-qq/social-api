@@ -4,12 +4,12 @@ import { Comment } from './comment.schema';
 import { User } from './user.schema';
 import { ProductCategory } from './product-category.schema';
 import { Promo } from './promo.schema';
-export type OtherDocument = Other & Document;
+export type OrderDocument = Order & Document;
 
 @Schema({
-  collection: 'Other',
+  collection: 'Order',
 })
-export class Other {
+export class Order {
   _id: string;
 
   @Prop({ type: Number, required: true, default: 1 })
@@ -39,5 +39,5 @@ export class Other {
   })
   updatedAt: Date;
 }
-const OtherSchema = SchemaFactory.createForClass(Other);
-export default OtherSchema;
+const OrderSchema = SchemaFactory.createForClass(Order);
+export default OrderSchema;
