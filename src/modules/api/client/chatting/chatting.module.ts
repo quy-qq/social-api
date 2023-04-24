@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User } from '@schema';
 import { AuthenticationBaseService } from 'src/common/base';
-import { ChattingRepository } from 'src/database/repository';
+import { ChattingRepository, UserRepository } from 'src/database/repository';
 import ChattingSchema, { Chatting } from 'src/database/schema/chatting.schema';
 import UserSchema from 'src/database/schema/user.schema';
 import { UserService } from '../user/user.service';
@@ -26,6 +26,7 @@ import { ChattingService } from './chatting.service';
     AuthenticationBaseService,
     JwtService,
     UserService,
+    UserRepository,
   ],
 })
 export class ChattingModule {}

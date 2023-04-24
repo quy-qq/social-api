@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Res,
+  Query,
   HttpStatus,
 } from '@nestjs/common';
 import { PostService } from './post.service';
@@ -22,7 +23,7 @@ import {
 } from '@nestjs/swagger';
 import { UserDecorator } from 'src/common/decorator';
 import { User } from '@schema';
-
+import { FiltersDto } from './dto/filters.dto';
 @ApiTags('Post')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('access-token')
@@ -45,8 +46,14 @@ export class PostController {
   async create(
     @Body() createPostDto: CreatePostDto,
     @UserDecorator() user: User,
+    @Res() response,
   ) {
-    return this.postService.create(createPostDto, user);
+    const data = this.postService.create(createPostDto, user);
+    return response.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.OK,
+      description: 'SUCCESS',
+      data,
+    });
   }
 
   /**
@@ -54,11 +61,12 @@ export class PostController {
    * @param user
    * @param response
    */
-
-  @ApiOperation({ summary: 'Get list promotion' })
+  //@UserDecorator() user: User
+  @ApiOperation({ summary: 'Get list post' })
   @Get()
-  async findAll(@UserDecorator() user: User, @Res() response) {
-    const data = await this.postService.findAll(user);
+  async findAll(@Query() filters: FiltersDto, @Res() response) {
+    console.log('222222222');
+    const data = await this.postService.findAll(filters);
     return response.status(HttpStatus.OK).json({
       statusCode: HttpStatus.OK,
       description: 'SUCCESS',
@@ -112,6 +120,27 @@ export class PostController {
   @Delete(':id')
   async remove(@Param('id') id: string, @Res() response) {
     const data = await this.postService.remove(id);
+    return response.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.OK,
+      description: 'SUCCESS',
+      data,
+    });
+  }
+  /**
+   *
+   * @param response
+   * @returns
+   */
+  @ApiOperation({ summary: 'Get list post following' })
+  @Get('following/user')
+  async postByFollowing(
+    @UserDecorator() user: User,
+    @Query() filter: FiltersDto,
+    @Res() response,
+  ) {
+    console.log('filter:', filter);
+    console.log('user:', user);
+    const data = await this.postService.postByFollowing(filter, user._id);
     return response.status(HttpStatus.OK).json({
       statusCode: HttpStatus.OK,
       description: 'SUCCESS',

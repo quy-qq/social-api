@@ -10,6 +10,11 @@ import { RecommentModule } from './recomment/recomment.module';
 import { ChattingModule } from './chatting/chatting.module';
 import { UploadModule } from './upload/upload.module';
 import { ConversationModule } from './conversation/conversation.module';
+import { FollowingModule } from './following/following.module';
+import { ProductModule } from './product/product.module';
+import { OrtherModule } from './orther/orther.module';
+import { PaymentHistoryModule } from './payment-history/payment-history.module';
+import { ProductCategoryModule } from './product-category/product-category.module';
 @Module({
   imports: [
     AuthenticationModule,
@@ -23,6 +28,12 @@ import { ConversationModule } from './conversation/conversation.module';
     ChattingModule,
     UploadModule,
     ConversationModule,
+    FollowingModule,
+    FollowingModule,
+    ProductModule,
+    OrtherModule,
+    PaymentHistoryModule,
+    ProductCategoryModule,
   ],
   providers: [],
   controllers: [],

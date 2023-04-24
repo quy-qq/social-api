@@ -7,6 +7,7 @@ import { UserService } from '../user/user.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JwtStrategy } from './jwt.strategy';
 import UserSchema, { User } from '../../../../database/schema/user.schema';
+import { UserRepository } from 'src/database/repository';
 // import LoginLogSchema from '../../../../database/schemas/log/user/login.log.schema';
 
 @Module({
@@ -19,6 +20,6 @@ import UserSchema, { User } from '../../../../database/schema/user.schema';
     UserModule,
   ],
   controllers: [AuthenticationController],
-  providers: [AuthenticationService, UserService, JwtStrategy],
+  providers: [AuthenticationService, UserService, JwtStrategy, UserRepository],
 })
 export class AuthenticationModule {}

@@ -7,6 +7,7 @@ import { PostRepository } from 'src/database/repository';
 import mongoose from 'mongoose';
 import { InjectConnection } from '@nestjs/mongoose';
 import { RecommentRepository } from 'src/database/repository/recomment.repository';
+import { FiltersDto } from './dto/filters.dto';
 @Injectable()
 export class CommentService {
   constructor(
@@ -22,8 +23,18 @@ export class CommentService {
     try {
       const comment = await this.commentRepository.actionCreate({
         ...createCommentDto,
+        post: idPost,
         user: user._id,
       });
+      await this.postRepository.model
+        .findOneAndUpdate(
+          { _id: idPost },
+          {
+            $inc: { countComment: 1 },
+          },
+          { new: true },
+        )
+        .session(session);
       await this.postRepository.model
         .updateOne({ _id: idPost }, { $push: { comments: comment._id } })
         .session(session);
@@ -37,10 +48,13 @@ export class CommentService {
     }
   }
 
-  async findAllCommentByPost(idPost: string) {
-    return await this.commentRepository.model
-      .find({ where: { post: idPost } })
-      .populate('reComment');
+  async findAllCommentByPost(idPost: string, filters: FiltersDto) {
+    return await this.commentRepository.pagination(
+      { post: { $in: idPost } },
+      filters.page,
+      filters.limit,
+      filters.orderBy,
+    );
   }
 
   async update(id: string, updateCommentDto: UpdateCommentDto) {
@@ -54,6 +68,16 @@ export class CommentService {
     const session = await this.connection.startSession();
     session.startTransaction();
     try {
+      await this.postRepository.model
+        .findOneAndUpdate(
+          { _id: id },
+          {
+            $inc: { countComment: -1 },
+          },
+          { new: true },
+        )
+        .session(session);
+
       await this.postRepository.model
         .updateOne(
           {

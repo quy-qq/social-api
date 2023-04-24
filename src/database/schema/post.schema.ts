@@ -20,7 +20,11 @@ export class Post {
   @Prop({ type: String, required: true })
   description: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: User.name,
+    autopopulate: true,
+  })
   user: User;
 
   @Prop({ type: Number, required: true, default: 0 })
@@ -29,11 +33,18 @@ export class Post {
   @Prop({ type: Number, required: true, default: 0 })
   countComment: number;
 
+  @Prop({ type: String })
+  upload: string;
+
+  @Prop({ type: String })
+  type: string;
+
   @Prop({
     type: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: Comment.name,
+        autopopulate: true,
       },
     ],
   })

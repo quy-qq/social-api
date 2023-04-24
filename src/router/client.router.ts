@@ -5,10 +5,16 @@ import {
   CommentModule,
   ChattingModule,
   UploadModule,
+  AuthenticationModule,
 } from 'src/modules/api/client';
+import { FollowingModule } from 'src/modules/api/client/following/following.module';
 import { RecommentModule } from 'src/modules/api/client/recomment/recomment.module';
 
 export const ClientRouteApi = [
+  {
+    path: 'authentication',
+    module: AuthenticationModule,
+  },
   {
     path: 'upload',
     module: UploadModule,
@@ -36,5 +42,9 @@ export const ClientRouteApi = [
   {
     path: 're-comment',
     module: RecommentModule,
+  },
+  {
+    path: 'follwing',
+    module: FollowingModule,
   },
 ];

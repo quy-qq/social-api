@@ -1,5 +1,6 @@
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { CommentModule } from 'src/modules/api/client/comment/comment.module';
+import { FollowingModule } from 'src/modules/api/client/following/following.module';
 import { LikeModule } from 'src/modules/api/client/like/like.module';
 import { PostModule } from 'src/modules/api/client/post/post.module';
 import { RecommentModule } from 'src/modules/api/client/recomment/recomment.module';
@@ -39,6 +40,7 @@ export const SwaggerClient = (app) => {
         CommentModule,
         ChattingModule,
         RecommentModule,
+        FollowingModule,
       ],
     },
   );

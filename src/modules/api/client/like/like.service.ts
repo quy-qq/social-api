@@ -28,18 +28,27 @@ export class LikeService {
         console.log('22222222222', checkExistLike);
         await this.postRepository.decrCountLikePost(idPost);
         await this.likeRepository.actionFindByIdAndDelete(checkExistLike._id);
+        const post = await this.postRepository.actionFindById(idPost);
         await session.commitTransaction();
-        return { message: 'Bạn đã bỏ thích bài viết!' };
+        return { post, message: 'Bạn đã bỏ thích bài viết' };
       }
       await this.postRepository.incCountLikePost(idPost);
       await this.likeRepository.actionCreate({ user: user._id, post: idPost });
       await session.commitTransaction();
-      return { message: 'Bạn đã thích bài viết!' };
+      const post = await this.postRepository.actionFindById(idPost);
+      return { post, message: 'Bạn đã thích bài viết' };
     } catch (error) {
       await session.abortTransaction();
       throw error;
     } finally {
       session.endSession();
     }
+  }
+
+  async checkLiked(idPost: string, user) {
+    return await this.likeRepository.model.find({
+      post: idPost,
+      user: user._id,
+    });
   }
 }

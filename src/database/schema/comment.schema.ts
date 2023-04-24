@@ -16,7 +16,11 @@ export class Comment {
   @Prop({ type: String, required: true })
   text: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: User.name,
+    autopopulate: true,
+  })
   user: User;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Post' })
@@ -27,6 +31,7 @@ export class Comment {
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: Recomment.name,
+        autopopulate: true,
       },
     ],
   })

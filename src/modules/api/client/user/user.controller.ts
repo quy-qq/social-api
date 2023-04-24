@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Param,
   Put,
+  Query,
   Request,
   Res,
   UseGuards,
@@ -23,6 +24,7 @@ import { JwtAuthGuard } from 'src/common/guard';
 import { FiltersDto } from './dto/filters.dto';
 import { User } from '@schema';
 import { UserDecorator } from 'src/common/decorator';
+import { QueryPaginationI } from 'src/common/interfaces/queryPagination.i';
 @ApiTags('User')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('access-token')
@@ -35,6 +37,32 @@ import { UserDecorator } from 'src/common/decorator';
 })
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  /**
+   *
+   * @param user
+   * @param response
+   * @param query
+   */
+  @ApiOperation({ summary: 'Get All User' })
+  @ApiOkResponse({ description: 'SUCCESS' })
+  @Get()
+  async findAll(
+    @UserDecorator() user: User,
+    @Res() response,
+    @Query() query: QueryPaginationI,
+  ) {
+    const data = await this.userService.userRepository.pagination(
+      {},
+      query.page,
+      query.limit,
+    );
+    return response.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.OK,
+      description: 'SUCCESS',
+      data,
+    });
+  }
 
   /**
    *
@@ -62,7 +90,9 @@ export class UserController {
    */
   @ApiOperation({ summary: 'Update Information Current User' })
   @ApiOkResponse({ description: 'update data success' })
-rDto,
+  @Put('me')
+  async update(
+    @Body() updateUserDto: UpdateUserDto,
     @Request() req,
     @Res() response,
   ) {
@@ -73,14 +103,14 @@ rDto,
     });
   }
 
-  /**
-   *
-   * @param id
-   */
-  @ApiOperation({ summary: 'DeActive Current User' })
-  @ApiOkResponse({ description: 'de active data success' })
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(id);
-  }
+  // /**
+  //  *
+  //  * @param id
+  //  */
+  // @ApiOperation({ summary: 'DeActive Current User' })
+  // @ApiOkResponse({ description: 'de active data success' })
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.userService.remove(id);
+  // }
 }

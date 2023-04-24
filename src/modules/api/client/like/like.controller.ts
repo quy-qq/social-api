@@ -18,8 +18,6 @@ import { JwtAuthGuard } from 'src/common/guard';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserDecorator } from 'src/common/decorator';
 import { User } from '@schema';
-import { response } from 'express';
-
 @ApiTags('Like')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('access-token')
@@ -48,7 +46,27 @@ export class LikeController {
     const data = await this.likeService.like(idPost, user);
     return await response.status(HttpStatus.OK).json({
       statusCode: HttpStatus.OK,
-      description: 'SUCCESS',
+      description: 'Success',
+      data,
+    });
+  }
+
+  /**
+   *  like and unlike
+   * @param user
+   * @param id
+   * @returns
+   */
+  @Get('check-liked/:idPost')
+  async checkLiked(
+    @UserDecorator() user: User,
+    @Param('idPost') idPost: string,
+    @Res() response,
+  ) {
+    const data = await this.likeService.checkLiked(idPost, user);
+    return await response.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.OK,
+      description: 'Success',
       data,
     });
   }
